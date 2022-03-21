@@ -20,7 +20,6 @@ namespace AMS.Controllers
         {
             var listaccounts = _accRepo.GetAccountDetails();
             var listaccountsType = _accRepo.GetAccountTypes();
-
             ViewBag.AccountType= new SelectList(listaccountsType.Result, "AccountType", "AccountType");
             var listcurrencies = _accRepo.GetCurrencies();
             ViewBag.CurrencySymbol = new SelectList(listcurrencies.Result, "CurrencyId", "CurrencySymbol");

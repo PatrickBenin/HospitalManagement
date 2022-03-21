@@ -232,17 +232,14 @@
 
         function EditCurrencyFun(CurrencyId)
         {
-            var cid = CurrencyId;
              $.ajax({
 
-            url: "@Url.Action("GetCurrencyById", "Home")",
-            type: "GET",
-                 dataType:"json",
-                 data: {
+             url: "@Url.Action("GetCurrencyById", "Home")",
+             type: "GET",
+             dataType:"json",
+             data: {
                      Id: CurrencyId,
-
             },
-
             success: function (response) {
 
                         $('#updCurrencyId').val(response[0].currencyId),

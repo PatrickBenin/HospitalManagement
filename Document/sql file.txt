@@ -1,0 +1,12 @@
+﻿create Procedure prGetTransaction(@TransType nvarchar(100))
+as
+Begin
+select t.ID,ca.AccountName CreditAccount,da.AccountName DebitAccount, TransType TransactionType,TransDateTime [Date Time],
+crc.Currency_Symbol PurchaseCurrency,dbc.Currency_Symbol SellingCurrency, t.ExRate, CAmount PurchaseAmount,DAmount SellingCurrency, TransDescription
+from Transactions t, Accounts ca, Accounts da, Currencies crc,Currencies dbc
+where t.INAccountID=ca.Code
+and t.OUTAccountID=da.Code
+and t.CCurrencyID=crc.id
+and t.CurrencyID=dbc.id
+and t.TransType=@TransType;
+end

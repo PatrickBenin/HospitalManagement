@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AMS.Repository_Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,16 @@ namespace AMS.Controllers
 {
     public class TransactionController : Controller
     {
+        public ITransactionRepository _transRepo;
+        public TransactionController(ITransactionRepository transRepo)
+        {
+            _transRepo = transRepo;
+        }
+
         public IActionResult Credit()
         {
-            return View();
+            var listcredit = _transRepo.GetCreditDetails();
+            return View(listcredit);
         }
 
         public IActionResult Debit()

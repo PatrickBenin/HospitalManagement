@@ -1,8 +1,64 @@
-﻿
+﻿@model List<CreditModel>
 @{
     ViewData["Title"] = "Credit";
-    Layout = "~/Views/Shared/_MasterLayout.cshtml";
+    int Count = 1;
 }
 
 <h2>Credit</h2>
 
+
+
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- START DEFAULT DATATABLE -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Credit</h3><br />
+                </div>
+                <div class="panel-body">
+                    <div><p class="panel-title">Manage Credit</p></div><br /> <br />
+                    <div>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Create</a>
+                        <a href="#" class="btn btn-info">Reload</a>
+                    </div><br />
+                    <table class="table datatable table-striped">
+                        <thead>
+                            <tr>
+                                <th>Account Name</th>
+                                <th>Code Name</th>
+                                <th>Currency</th>
+                                <th>Exchange Rate</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>@(Count++)</td>
+                                <td>@item.AccountName</td>
+                                <td>@item.Code</td>
+                                <td>@item.Currency</td>
+                                <td>@item.ExchangeRate</td>
+                                <td>@item.Amount</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" onclick="EditCurrencyFun(@item.TransID)">Edit</a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END DEFAULT DATATABLE -->
+        </div>
+    </div>
+</div>
+
+<!-- PAGE CONTENT WRAPPER -->

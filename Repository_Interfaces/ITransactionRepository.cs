@@ -1,0 +1,13 @@
+﻿using AMS.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AMS.Repository_Interfaces
+{
+    public interface ITransactionRepository
+    {
+        public Task<List<CreditModel>> GetCreditDetails();
+    }
+}
