@@ -1,0 +1,310 @@
+﻿@model List<AccountModel>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    int Count = 1;
+}
+<style>
+    #AccountType, #Currency {
+        width: 176px;
+    }
+</style>
+
+<!-- Save Modal -->
+<div id="SaveModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">+ Add Account</h4>
+            </div>
+            <div class="modal-body">
+                <!-- PAGE CONTENT WRAPPER -->
+                <div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-body">
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Code*</label>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group">
+                                                            <input type="text" id="Code" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Last Name*</label>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <div class="input-group">
+                                                            <input type="text" id="LastName" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Select*</label>
+
+                                                    <div class="col-md-9">
+                                                        @Html.DropDownList("AccountType", (IEnumerable<SelectListItem>)ViewBag.AccountType, "Select AccountType", new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Taskira No*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="TaskiraNo" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Date of Birth*</label>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group">
+                                                            <input type="date" class="form-control" id="DateOfBirth">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Select*</label>
+                                                    <div class="col-md-9">
+                                                        @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control",id= "Currency_Id" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">AccountName*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="AccountName" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">FirstName*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="FirstName" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Father Name*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="FatherName" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Address*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="aAddress" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Email Address*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="EmailAddress" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Contact No*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="PhoneNumber" />
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div style="text-align:right;">
+                                                    <button id="btnCancel" class="btn btn-default">Cancel</button>
+                                                    <button id="btnSave" class="btn btn-success">Save</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- START DEFAULT DATATABLE -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Accounts</h3><br />
+                </div>
+                <div class="panel-body">
+                    <div><p class="panel-title">Manage Accounts</p></div><br /> <br />
+                    <div>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Create</a>
+                        <a href="#" class="btn btn-info">Reload</a>
+                    </div><br />
+                    <table class="table datatable table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Code</th>
+                                <th>Account Name</th>
+                                <th>Last Name</th>
+                                <th>Father Name</th>
+                                <th>Currency</th>
+                                <th>Account Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(Count++)</td>
+                                    <td>@item.Code</td>
+                                    <td>@item.AccountName</td>
+                                    <td>@item.LastName
+                                    <td>@item.FatherName</td>
+                                    <td>@item.Currency_Symbol</td>
+                                    <td>@item.AccountType</td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Edit</a>
+                                        <a href="#" class="btn btn-success">Upload</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END DEFAULT DATATABLE -->
+        </div>
+    </div>
+</div>
+
+<!-- PAGE CONTENT WRAPPER -->
+@section CrudSection{
+    <script>
+
+    $('#btnSave').on('click', function () {
+        $.ajax({
+
+            url: "@Url.Action("SaveAccount", "Home")",
+            type: "POST",
+            dataType:"json",
+            data: {
+                Code: $('#Code').val(),
+                AccountName: $('#AccountName').val(),
+                LastName: $('#LastName').val(),
+                FatherName: $('#FatherName').val(),
+                Currency_Id: $('#Currency_Id').val(),
+                aAddress: $('#aAddress').val(),
+                TaskiraNo: $('#TaskiraNo').val(),
+                EmailAddress: $('#EmailAddress').val(),
+                DateofBirth: $('#DateofBirth').val(),
+                PhoneNumber: $('#PhoneNumber').val(),
+                sSignature: $('#sSignature').val(),
+                Photo: $('#Photo').val(),
+                DateofBrith: $('#DateofBirth').val(),
+                AccountType: $('#AccountType').val(),
+
+
+
+
+
+            },
+
+            success: function (response) {
+                location.reload(true);
+            }
+
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function EditCurrencyFun(CurrencyId)
+        {
+            var cid = CurrencyId;
+             $.ajax({
+
+            url: "@Url.Action("GetCurrencyById", "Home")",
+            type: "GET",
+                 dataType:"json",
+                 data: {
+                     Code: Code,
+
+            },
+
+            success: function (response) {
+
+                        $('#updCurrencyId').val(response[0].currencyId),
+                        $('#updCurrenciesType').val(response[0].currencyType),
+                        $('#updCurrencySymbol').val(response[0].currencySymbol),
+                        $('#updUSDExchangeRate').val(response[0].usdExchangeRate)
+                }
+
+            });
+
+
+
+        }
+
+
+        $('#btnUpdate').on('click', function () {
+        $.ajax({
+
+            url: "@Url.Action("SaveCurrency", "Home")",
+            type: "POST",
+            dataType:"json",
+            data: {
+                CurrencyId: $('#updCurrencyId').val(),
+                CurrencyType: $('#updCurrenciesType').val(),
+                CurrencySymbol: $('#updCurrencySymbol').val(),
+                USDExchangeRate: $('#updUSDExchangeRate').val(),
+            },
+
+            success: function (response) {
+                location.reload(true);
+            }
+
+        });
+    });
+    </script>
+}
