@@ -38,8 +38,8 @@
                 <li class="xn-openable">
                     <a href="#"><span class="fa fa-sign-in"></span>Accounts Operation</a>
                     <ul>
-                        <li>@Html.ActionLink("Account","Index","Home")></li>
-                        <li>@Html.ActionLink("Currencies", "Currencies", "Home")</li>
+                        <li><a asp-action="index" asp-controller="Home">Account</a></li>
+                        <li><a asp-action="Currencies" asp-controller="Home">Currencies</a></li>
                         <li><a href="pages-login-website-light.html">Document Types</a></li>
                         <li><a href="pages-login-website-light.html">Auctions</a></li>
                     </ul>
@@ -47,7 +47,8 @@
                 <li class="xn-openable">
                     <a href="#"><span class="fa fa-sign-in"></span>Transactions</a>
                     <ul>
-                        <li>@Html.ActionLink("Credit","Credit","Transaction")></li>                         <li>@Html.ActionLink("Debit","Debit","Transaction")></li>
+                        <li><a asp-action="Credit" asp-controller="Transaction">Credit</a></li>
+                        <li><a asp-action="Debit" asp-controller="Transaction">Debit</a></li>
                         <li><a href="pages-login-website-light.html">Transfer</a></li>
                         <li><a href="pages-login-website-light.html">Loan</a></li>
                         <li><a href="pages-login-website-light.html">Exchange</a></li>
