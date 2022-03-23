@@ -51,6 +51,18 @@ namespace AMS.Repository
             }
         }
 
+        public async Task<AccountModel> GetAccountDetailbyCode(int accountId)
+        {
+            var param = new DynamicParameters();
+            param.Add("@accountId", accountId);
+            using (var con = _context.CreateConnection())
+            {
+                var _Accountdet = con.QuerySingle<AccountModel>("prGetAccountsdetailbyCode",param:param, commandType: CommandType.StoredProcedure);
+                return _Accountdet;
+            }
+        }
+
+        
         public async Task<int> SaveCurrencies(CurrenciesModel currenciesModel)
         {
             var param = new DynamicParameters();

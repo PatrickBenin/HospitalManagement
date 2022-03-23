@@ -22,14 +22,33 @@ namespace AMS.Repository
             _context = context;
         }
 
-        public async Task<List<CreditModel>> GetCreditDetails()
+    
+
+
+        public async Task<List<CreditDebitModel>> GetCreditDetails()
         {
+            var param = new DynamicParameters();
+            param.Add("@TransType", "Credit");
             using (var con = _context.CreateConnection())
             {
-                var _listAccounts = con.Query<CreditModel>("prGetAccounts", commandType: CommandType.StoredProcedure).ToList();
+                var listcredit = con.Query<CreditDebitModel>("prGetTransaction", param: param, commandType: CommandType.StoredProcedure).ToList();
+
+                return listcredit;
+            }
+        }
+
+        public async Task<List<CreditDebitModel>> GetDebitDetails()
+        {
+            var param = new DynamicParameters();
+            param.Add("@TransType", "Debit");
+            using (var con = _context.CreateConnection())
+            {
+                var _listAccounts = con.Query<CreditDebitModel>("prGetTransaction", param: param, commandType: CommandType.StoredProcedure).ToList();
 
                 return _listAccounts;
             }
         }
+
+
     }
 }

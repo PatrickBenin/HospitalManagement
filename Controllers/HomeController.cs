@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,7 +41,16 @@ namespace AMS.Controllers
             ViewBag.Currencies = new SelectList(listcurrencies.Result, "CurrencyId", "CurrencySymbol");
             return Json(Selectedcurrencies);
         }
+
+        public IActionResult GetAccountById(int id)
+        {
+            AccountModel AccountbyDetCode = _accRepo.GetAccountDetailbyCode(id).Result;
+             
+            return Json(AccountbyDetCode);
+        }
+
         
+
         [HttpPost]
         //public IActionResult SaveCurrency(int? CurrencyId, string CurrencyType, string CurrencySymbol, string USDExchangeRate)
         public IActionResult SaveCurrency(CurrenciesModel data)
@@ -62,6 +72,29 @@ namespace AMS.Controllers
         public IActionResult SaveAccount(AccountModel data)
         {
 
+            //long size = data.files.Sum(f => f.Length);
+
+            //// full path to file in temp location
+            //var filePath = Path.GetTempFileName();
+
+            //foreach (var formFile in data.files)
+            //{
+            //    if (formFile.Length > 0)
+            //    {
+            //        using (var stream = new FileStream(filePath, FileMode.Create))
+            //        {
+            //              formFile.CopyToAsync(stream);
+            //        }
+            //    }
+            //}
+
+            string uploadFolderPath = "~/Photo/";
+
+            //string fileName = FileUpload1.FileName.ToString();
+           
+            //string filePath = HttpContext.Current.Server.MapPath(uploadFolderPath);
+            //FileUpload1.SaveAs(filePath + "\\" + fileName);
+            //ImageButton1.ImageUrl = "~/Image/" + "/" + FileUpload1.FileName.ToString();
 
             if (!ModelState.IsValid)
             {

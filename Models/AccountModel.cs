@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace AMS.Models
         public DateTime DateofBirth { get; set; }
         public string PhoneNumber { get; set; }
         public string sSignature { get; set; }
+        public IFormFile  files { get; set; }
         public string Photo { get; set; }
 
         public string AccountType { get; set; }

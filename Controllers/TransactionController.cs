@@ -10,21 +10,32 @@ namespace AMS.Controllers
     public class TransactionController : Controller
     {
         public ITransactionRepository _transRepo;
-        public TransactionController(ITransactionRepository transRepo)
+        public IAccountRepository _accRepo;
+        public TransactionController(ITransactionRepository transRepo, IAccountRepository accRepo)
         {
             _transRepo = transRepo;
+            _accRepo = accRepo;
         }
+
+    
 
         public IActionResult Credit()
         {
+            var listcurrencies = _accRepo.GetCurrencies();
+            ViewBag.CurrencySymbol = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(listcurrencies.Result, "CurrencyId", "CurrencySymbol");
             var listcredit = _transRepo.GetCreditDetails();
-            return View(listcredit);
+            return View(listcredit.Result);
         }
+
+         
+
 
         public IActionResult Debit()
         {
-            return View();
+            var listdebit = _transRepo.GetDebitDetails();
+            return View(listdebit.Result);
         }
+
 
         public IActionResult Exchange()
         {

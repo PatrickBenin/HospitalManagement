@@ -8,6 +8,8 @@ namespace AMS.Repository_Interfaces
 {
     public interface ITransactionRepository
     {
-        public Task<List<CreditModel>> GetCreditDetails();
+        public Task<List<CreditDebitModel>> GetCreditDetails();
+        public Task<List<CreditDebitModel>> GetDebitDetails();
+
     }
 }

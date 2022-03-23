@@ -13,5 +13,8 @@ namespace AMS.Repository_Interfaces
         public Task<int> SaveCurrencies(CurrenciesModel currenciesModel);
         public Task<int> SaveAccount(AccountModel accountModel);
         public Task<List<AccountTypeModel>> GetAccountTypes();
+        public Task<AccountModel> GetAccountDetailbyCode(int accountId);
+
+
     }
 }

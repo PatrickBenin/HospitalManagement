@@ -9,6 +9,36 @@
     #AccountType, #Currency {
         width: 176px;
     }
+
+    input[type="file"] {
+        display: block;
+    }
+
+    .imageThumb {
+        max-height: 75px;
+        border: 2px solid;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .pip {
+        display: inline-block;
+        margin: 10px 10px 0 0;
+    }
+
+    .remove {
+        display: block;
+        background: #444;
+        border: 1px solid black;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+    }
+
+        .remove:hover {
+            background: white;
+            color: black;
+        }
 </style>
 
 <!-- Save Modal -->
@@ -81,7 +111,7 @@
                                                 <div class="form-group">
                                                     <label class="col-md-3 control-label">Select*</label>
                                                     <div class="col-md-9">
-                                                        @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control",id= "Currency_Id" })
+                                                        @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control", id = "Currency_Id" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,12 +124,12 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <label class="col-md-3 control-label">FirstName*</label>
                                                     <div class="input-group">
                                                         <input type="text" class="form-control" id="FirstName" />
                                                     </div>
-                                                </div>
+                                                </div>*@
 
                                                 <div class="form-group">
                                                     <label class="col-md-3 control-label">Father Name*</label>
@@ -128,6 +158,13 @@
                                                         <input type="text" class="form-control" id="PhoneNumber" />
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Upload your images</label>
+                                                    <div class="input-group">
+                                                        <input type="file" id="files" name="files[]" multiple />
+                                                    </div>
+                                                </div>
+                                                 
                                                 <br />
                                                 <div style="text-align:right;">
                                                     <button id="btnCancel" class="btn btn-default">Cancel</button>
@@ -148,7 +185,144 @@
         </div>
     </div>
 </div>
+<!-- Update Modal -->
+<div id="UpdateAccountModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">+ Add Account</h4>
+            </div>
+            <div class="modal-body">
+                <!-- PAGE CONTENT WRAPPER -->
+                <div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <form class="form-horizontal">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-body">
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Code*</label>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group">
+                                                            <input type="hidden" id="updAccountId" class="form-control" />
+                                                            <input type="text" id="updCode" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Last Name*</label>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <div class="input-group">
+                                                            <input type="text" id="updLastName" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Select*</label>
+
+                                                    <div class="col-md-9">
+                                                        @Html.DropDownList("AccountType", (IEnumerable<SelectListItem>)ViewBag.AccountType, "Select AccountType", new { @class = "form-control",@id= "updAccountType" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Taskira No*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="updTaskiraNo" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Date of Birth*</label>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group">
+                                                            <input type="date" class="form-control" id="updDateOfBirth">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Select*</label>
+                                                    <div class="col-md-9">
+                                                        @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control", id = "updCurrency" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">AccountName*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="updAccountName" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">FirstName*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="updFirstName" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Father Name*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="updFatherName" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Address*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="updaAddress" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label">Email Address*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="updEmailAddress" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Contact No*</label>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="updPhoneNumber" />
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div style="text-align:right;">
+                                                    <button id="btnCancel" class="btn btn-default">Cancel</button>
+                                                    <button id="btnupdSave" class="btn btn-success">Save</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- PAGE CONTENT WRAPPER -->
 <div class="page-content-wrap">
 
@@ -191,7 +365,7 @@
                                     <td>@item.Currency_Symbol</td>
                                     <td>@item.AccountType</td>
                                     <td>
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Edit</a>
+                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateAccountModal"  onclick="EditAccountFun('@Html.Raw(@item.AccountId)')">Edit</a>
                                         <a href="#" class="btn btn-success">Upload</a>
                                     </td>
                                 </tr>
@@ -207,10 +381,19 @@
 
 <!-- PAGE CONTENT WRAPPER -->
 @section CrudSection{
+
+
     <script>
 
-    $('#btnSave').on('click', function () {
+        $('#btnSave').on('click', function () {
+
+           
+
+
         $.ajax({
+
+
+
 
             url: "@Url.Action("SaveAccount", "Home")",
             type: "POST",
@@ -227,12 +410,10 @@
                 DateofBirth: $('#DateofBirth').val(),
                 PhoneNumber: $('#PhoneNumber').val(),
                 sSignature: $('#sSignature').val(),
-                Photo: $('#Photo').val(),
+                Photo: $('#files').val(),
+                files: $("#files").get(0).files[0],
                 DateofBrith: $('#DateofBirth').val(),
-                AccountType: $('#AccountType').val(),
-
-
-
+                AccountType: $('#AccountType').val()
 
 
             },
@@ -244,60 +425,64 @@
         });
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        function EditCurrencyFun(CurrencyId)
+        function EditAccountFun(accountId)
         {
-            var cid = CurrencyId;
+
              $.ajax({
 
-            url: "@Url.Action("GetCurrencyById", "Home")",
+            url: "@Url.Action("GetAccountById", "Home")",
             type: "GET",
                  dataType:"json",
                  data: {
-                     Code: Code,
-
+                     id: accountId,
             },
-
             success: function (response) {
-
-                        $('#updCurrencyId').val(response[0].currencyId),
-                        $('#updCurrenciesType').val(response[0].currencyType),
-                        $('#updCurrencySymbol').val(response[0].currencySymbol),
-                        $('#updUSDExchangeRate').val(response[0].usdExchangeRate)
+                var d = new Date(response.dateofBirth);
+                    $('#updCode').val(response.code),
+                    $('#updAccountName').val(response.accountName),
+                    $('#updLastName').val(response.lastName),
+                    $('#updFatherName').val(response.fatherName),
+                    $('#updCurrency').val(response.currency_Id),
+                    $('#updaAddress').val(response.aAddress),
+                    $('#updTaskiraNo').val(response.taskiraNo),
+                        $('#updEmailAddress').val(response.emailAddress),
+                        $('#updDateofBirth').val(d.getDate()),
+                    $('#updPhoneNumber').val(response.phoneNumber),
+                    $('#updsSignature').val(response.sSignature),
+                    $('#updPhoto').val(response.photo),
+                    $('#updAccountType').val(response.accountType)
+                    $('#updAccountId').val(response.accountId)
+                
                 }
 
             });
 
-
-
         }
 
 
-        $('#btnUpdate').on('click', function () {
+        $('#btnupdSave').on('click', function () {
         $.ajax({
 
-            url: "@Url.Action("SaveCurrency", "Home")",
+            url: "@Url.Action("SaveAccount", "Home")",
             type: "POST",
             dataType:"json",
             data: {
-                CurrencyId: $('#updCurrencyId').val(),
-                CurrencyType: $('#updCurrenciesType').val(),
-                CurrencySymbol: $('#updCurrencySymbol').val(),
-                USDExchangeRate: $('#updUSDExchangeRate').val(),
+                Code: $('#updCode').val(),
+                AccountName: $('#updAccountName').val(),
+                LastName: $('#updLastName').val(),
+                FatherName: $('#updFatherName').val(),
+                Currency_Id: $('#updCurrency').val(),
+                aAddress: $('#updaAddress').val(),
+                TaskiraNo: $('#updTaskiraNo').val(),
+                EmailAddress: $('#updEmailAddress').val(),
+                DateofBirth: $('#updDateofBirth').val(),
+                PhoneNumber: $('#updPhoneNumber').val(),
+                sSignature: $('#updsSignature').val(),
+                Photo: $('#updPhoto').val(),
+                DateofBrith: $('#DateofBirth').val(),
+                AccountType: $('#updAccountType').val(),
+                AccountId: $('#updAccountId').val()
+                 
             },
 
             success: function (response) {
@@ -305,6 +490,33 @@
             }
 
         });
-    });
+        });
+
+
+        $(document).ready(function () {
+            if (window.File && window.FileList && window.FileReader) {
+                $("#files").on("change", function (e) {
+                    var files = e.target.files,
+                        filesLength = files.length;
+                    for (var i = 0; i < filesLength; i++) {
+                        var f = files[i]
+                        var fileReader = new FileReader();
+                        fileReader.onload = (function (e) {
+                            var file = e.target;
+                            $("<span class=\"pip\">" +
+                                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                                "<br/><span class=\"remove\">Remove image</span>" +
+                                "</span>").insertAfter("#files");
+                            $(".remove").click(function () {
+                                $(this).parent(".pip").remove();
+                            });
+                        });
+                        fileReader.readAsDataURL(f);
+                    }
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
+        });
     </script>
 }

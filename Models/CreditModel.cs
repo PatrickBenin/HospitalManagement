@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 
 namespace AMS.Models
 {
-    public class CreditModel
+    public class CreditDebitModel
     {
-        public string AccountName { get; set; }
+        public string CreditAccount { get; set; }
         public string Code { get; set; }
-        public string Currency { get; set; }
-        public string Narrative { get; set; }
-        public string ExchangeRate { get; set; }
-        public string Amount { get; set; }
+        public string PurchaseCurrency { get; set; }//credit
+        public string TransDescription { get; set; }
+        public string ExRate { get; set; }
+        public string SellingCurrency { get; set; }//debit
+        public string PurchaseAmount { get; set; }//credit
+        public string SellingAmount { get; set; }
         public string AmountDescription { get; set; }
         public string Signature { get; set; }
-        public int TransID { get; set; }
+        public int ID { get; set; }
     }
 }
