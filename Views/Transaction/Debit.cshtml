@@ -14,7 +14,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">+ Add Credit Account</h4>
+                <h4 class="modal-title">+ Add Debit Account</h4>
             </div>
             <div class="modal-body">
                 <!-- PAGE CONTENT WRAPPER -->
@@ -79,15 +79,7 @@
                                                 <button id="btnCancel" class="btn btn-default">Cancel</button>
                                                 <button id="btnSave" class="btn btn-success">Save</button>
                                             </div>
-                                            @*   <div class="form-group">
-                                                    <label class="col-md-3 control-label">AccountName</label>
-                                                    <div class="col-md-9">
-                                                        @Html.DropDownList("AccountType", (IEnumerable<SelectListItem>)ViewBag.AccountType, "Select AccountType", new { @class = "form-control" })
-                                                    </div>
-                                                </div>*@
-
-
-
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +99,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"> Update Credit Account</h4>
+                <h4 class="modal-title"> Update Debit Account</h4>
             </div>
             <div class="modal-body">
                 <!-- PAGE CONTENT WRAPPER -->
@@ -139,7 +131,7 @@
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Currency</label>
                                                 <div class="input-group">
-                                                    @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control", id = "Currency_Id" })
+                                                    @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control", id = "UpdCurrency_Id" })
                                                 </div>
                                             </div>
 
@@ -147,13 +139,13 @@
                                                 <label class="col-md-3 control-label">Narrative</label>
                                                 <div class="input-group">
                                                     @*<input type="text" id="Narrative" class="form-control" />*@
-                                                    <textarea cols="22" rows="10" id="UpdTransDescription"></textarea>
+                                                    <textarea cols="22" rows="10" id="updTransDescription"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">ExchangeRate</label>
+                                                <label class="col-md-3 control-label">ExRate</label>
                                                 <div class="input-group">
-                                                    <input type="text"  class="form-control" id="UpdExchangeRate" />
+                                                    <input type="text" class="form-control" id="UpdExchangeRate" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -170,7 +162,7 @@
                                             </div>
                                             <div style="text-align:right;">
                                                 <button id="btnCancel" class="btn btn-default">Cancel</button>
-                                                <button id="btnSave" class="btn btn-success">Save</button>
+                                                <button id="btnUpdateDebit" class="btn btn-success">Save</button>
                                             </div>
                                             @*   <div class="form-group">
                                                     <label class="col-md-3 control-label">AccountName</label>
@@ -201,10 +193,10 @@
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Credit</h3><br />
+                    <h3 class="panel-title">Debit</h3><br />
                 </div>
                 <div class="panel-body">
-                    <div><p class="panel-title">Manage Credit</p></div><br /> <br />
+                    <div><p class="panel-title">Manage Debit</p></div><br /> <br />
                     <div>
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Create</a>
                         <a href="#" class="btn btn-info">Reload</a>
@@ -225,12 +217,12 @@
                             {
                                 <tr>
                                     <td>@(Count++)</td>
-                                    <td>@item.CreditAccount</td>
-                                    <td>@item.PurchaseCurrency</td>
+                                    <td>@item.DebitAccount</td>
+                                    <td>@item.SellingCurrency</td>
                                     <td>@item.ExRate</td>
-                                    <td>@item.PurchaseAmount</td>
+                                    <td>@item.SellingAmount</td>
                                     <td>
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" onclick="EditCreditFun(@item.ID)">Edit</a>
+                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" onclick="EditDebitFun(@item.ID)">Edit</a>
                                     </td>
                                 </tr>
                             }
@@ -275,17 +267,17 @@
 
         $.ajax({
 
-            url: "@Url.Action("SaveCredit", "Transaction")",
+            url: "@Url.Action("SaveDebit", "Transaction")",
             type: "POST",
             dataType:"json",
             data: {
                 Code: $('#Code').val(),
                 TransDescription: $('#TransDescription').val(),
                 CreditAccount: $('#AccCode').val(),
-                PurchaseCurrency: $('#Currency_Id').val(),
+                SellingCurrency: $('#Currency_Id').val(),
                 AccountType: $('#AccCode').val(),
                 ExRate: $('#ExRate').val(),
-                PurchaseAmount: $('#Amount').val()
+                SellingAmount: $('#Amount').val()
             },
 
             success: function (response) {
@@ -293,68 +285,7 @@
             }
 
         });
-         });
-
-        function EditCreditFun(Id)
-        {
-
-             $.ajax({
-
-            url: "@Url.Action("GetCreditById", "Transaction")",
-            type: "GET",
-                 dataType:"json",
-                 data: {
-                     id: Id,
-            },
-            success: function (response) {
-                var d = new Date(response.dateofBirth);
-                 $('#Code').val(),
-                     $('#updTransDescription').val(response.TransDescription),
-                 $('#updAccCode').val(response.CreditAccount),
-                 $('#UpdCurrency_Id').val(response.PurchaseCurrency),
-                    $('#AccCode').val(response.AccountName),
-                     $('#ExRate').val(response.ExRate),
-                  $('#Amount').val(response.PurchaseAmount),
-                    $('#updAccountId').val(response.accountId)
-
-                }
-
-            });
-
-        }
-
-
-        $('#btnupdSave').on('click', function () {
-        $.ajax({
-
-            url: "@Url.Action("SaveAccount", "Home")",
-            type: "POST",
-            dataType:"json",
-            data: {
-                Code: $('#updCode').val(),
-                AccountName: $('#updAccountName').val(),
-                LastName: $('#updLastName').val(),
-                FatherName: $('#updFatherName').val(),
-                Currency_Id: $('#updCurrency').val(),
-                aAddress: $('#updaAddress').val(),
-                TaskiraNo: $('#updTaskiraNo').val(),
-                EmailAddress: $('#updEmailAddress').val(),
-                DateofBirth: $('#updDateofBirth').val(),
-                PhoneNumber: $('#updPhoneNumber').val(),
-                sSignature: $('#updsSignature').val(),
-                Photo: $('#updPhoto').val(),
-                DateofBrith: $('#DateofBirth').val(),
-                AccountType: $('#updAccountType').val(),
-                AccountId: $('#updAccountId').val()
-
-            },
-
-            success: function (response) {
-                location.reload(true);
-            }
-
-        });
-        });
+    });
 
     </script>
 }

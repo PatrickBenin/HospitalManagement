@@ -10,6 +10,7 @@ namespace AMS.Repository_Interfaces
     {
         public Task<List<CreditDebitModel>> GetCreditDetails();
         public Task<List<CreditDebitModel>> GetDebitDetails();
-
+        public Task<int> SaveCredit(CreditDebitModel accountModel);
+        public Task<int> SaveDebit(CreditDebitModel accountModel);
     }
 }

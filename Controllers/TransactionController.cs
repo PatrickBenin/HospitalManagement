@@ -1,4 +1,5 @@
-﻿using AMS.Repository_Interfaces;
+﻿using AMS.Models;
+using AMS.Repository_Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -27,11 +28,22 @@ namespace AMS.Controllers
             return View(listcredit.Result);
         }
 
-         
-
+         public IActionResult SaveCredit(CreditDebitModel creditDebit)
+        {
+            var saveCredit = _transRepo.SaveCredit(creditDebit);
+            return Json(saveCredit);
+        }
+        public IActionResult SaveDebit(CreditDebitModel creditDebit)
+        {
+            var saveDebit = _transRepo.SaveDebit(creditDebit);
+            return Json(saveDebit);
+        }
 
         public IActionResult Debit()
         {
+            var listcurrencies = _accRepo.GetCurrencies();
+            ViewBag.CurrencySymbol = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(listcurrencies.Result, "CurrencyId", "CurrencySymbol");
+
             var listdebit = _transRepo.GetDebitDetails();
             return View(listdebit.Result);
         }
