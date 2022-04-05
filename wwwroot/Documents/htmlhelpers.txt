@@ -1,0 +1,42 @@
+html helpers are used for creating html controls
+<input type="text"/>
+htmlhelpers
+
+standards htmlhelpers
+@Html.Textbox();
+@Html.Radiobutton();
+@Html.Label();
+etc...
+
+
+strongly type html helpers
+@Html.TextboxFor(model=>model.id)
+@Html.DropdownlistFor(model=>model.id)
+
+@Html.Label("Username") @Html.TextBox("txtUsername","pratiusha",new { @style = "background-color:red",@placeholder="Enter name here"})<br/>
+
+@Html.Label("Username") @Html.TextBox("txtUsername","pratiusha",new { @style = "background-color:red",@readonly="true"})<br/>
+
+
+@Html.Label("Username") @Html.TextBox("txtUsername","pratiusha",new { @class="form-control",@readonly="true"})<br/>
+ 
+
+@Html.Label("Username") @Html.TextBox("txtUsername","pratiusha",new { @class="mytest", @readonly="true"})<br/>
+ 
+ 
+<label>Password:</label>@Html.Password("txtpwd")<br />
+<label>Gender</label>@Html.RadioButton("rbgender","Male",true)<span>Male</span>@Html.RadioButton("rbgender", "Female")<span>Female</span><br />
+
+<label>Choose Courses</label>@Html.CheckBox("dotnet")<span>Dotnet</span>@Html.CheckBox("Java")<span>Java</span><br />
+
+<label>Select Country</label>@Html.DropDownList("Country",new List<SelectListItem>()
+{
+    new SelectListItem {Text="India",Value="1" },
+    new SelectListItem {Text="China",Value="2",Selected=true},
+    new SelectListItem {Text="Bangladesh",Value="3" }
+
+},"select Country")
+
+
+
+

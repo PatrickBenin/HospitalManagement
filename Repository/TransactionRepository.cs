@@ -55,7 +55,7 @@ namespace AMS.Repository
             
             param.Add("@TransDescription", accountModel.TransDescription);
             param.Add("@CurrencyID", accountModel.PurchaseCurrency);
-            param.Add("@DAmount", null);
+            param.Add("@DAmount", accountModel.PurchaseAmount);
             param.Add("@TransType", "Credit");
             param.Add("@INAccountID", accountModel.CreditAccount);
             param.Add("@OUTAccountID", "CSH001");
@@ -93,7 +93,7 @@ namespace AMS.Repository
             param.Add("@INAccountID", "CSH001");
             param.Add("@OUTAccountID", accountModel.CreditAccount);
             param.Add("@ExRate", accountModel.ExRate);
-            param.Add("@CAmount", null);
+            param.Add("@CAmount", accountModel.SellingAmount);
             param.Add("@CcurrencyID", accountModel.SellingCurrency);
             param.Add("@UserCreated", 1);
             param.Add("@CTransDescription", accountModel.TransDescription);
@@ -115,6 +115,84 @@ namespace AMS.Repository
             }
         }
 
-        
+        public List<AccountModel> GetAccountCode(string Prefix)
+        {
+
+            
+            var result=new List<AccountModel>();
+            var param = new DynamicParameters();
+
+           
+          
+
+            using (var con = _context.CreateConnection())
+            {
+                  result = con.Query<AccountModel>("prGetAllAccounts",  commandType: CommandType.StoredProcedure).ToList();
+
+                 
+            }
+
+            List<AccountModel> Name = (from N in result
+                      where N.AccountName.StartsWith(Prefix.ToLower()) 
+                        select new AccountModel{ AccountName= N.AccountName }).ToList();
+
+            return Name;
+
+
+        }
+
+        public async Task<List<LoanModel>> GetLoanDetails()
+        {
+            var param = new DynamicParameters();
+
+            using (var con = _context.CreateConnection())
+            {
+                var _listAccounts = con.Query<LoanModel>("prGetLoanTransaction", commandType: CommandType.StoredProcedure).ToList();
+
+                return _listAccounts;
+            }
+        }
+
+        public async Task<int> SaveLoan(LoanModel accountModel)
+        {
+            var param = new DynamicParameters();
+
+            param.Add("@TransDescription", accountModel.LoanDescription);
+            param.Add("@CurrencyID", accountModel.Currency);
+            param.Add("@DAmount", accountModel.ReturnAmount);
+            if (accountModel.LoanType == "Loan")
+            {
+                param.Add("@INAccountID", "CSH001");
+                param.Add("@OUTAccountID", accountModel.AccountName);
+            }
+            else if(accountModel.LoanType == "Loan")
+            {
+                param.Add("@INAccountID", accountModel.AccountName);
+                param.Add("@OUTAccountID", "CSH001");
+            }
+
+            param.Add("@ExRate", accountModel.ExRate);
+            param.Add("@CAmount", accountModel.LoanAmount);
+            param.Add("@CcurrencyID", accountModel.ExchangeCurrency);
+            param.Add("@CTransDescription", accountModel.LoanDescription);
+            param.Add("@TransType", "Loan");
+            param.Add("@UserCreated", 1);
+            param.Add("@ReferenceId", null);
+            string StoreprocName = string.Empty;
+            if (accountModel.LoanId > 0)
+            {
+                StoreprocName = "PrUpdateTransaction";
+            }
+            else
+            {
+                StoreprocName = "PrInsertTransaction";
+            }
+            using (var con = _context.CreateConnection())
+            {
+                int result = con.Execute(StoreprocName, param: param, commandType: CommandType.StoredProcedure);
+
+                return result;
+            }
+        }
     }
 }

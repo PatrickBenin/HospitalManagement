@@ -1,0 +1,9 @@
+what is interface?
+
+
+interface collection of all abstract methods
+interface by default is public
+u cannot write any not abstract method,variable etc
+use interface keyword
+
+interface is pure abstraction

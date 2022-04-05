@@ -9,6 +9,7 @@ namespace AMS.Models
     {
         public string DebitAccount { get; set; }
         public string CreditAccount { get; set; }
+        public string Name { get; set; }
         public string Code { get; set; }
         public string PurchaseCurrency { get; set; }//credit currency
         public string TransDescription { get; set; }

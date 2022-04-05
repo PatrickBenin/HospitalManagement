@@ -1,32 +1,10 @@
-﻿@model List<CreditDebitModel>
+﻿@model List<LoanModel>
 @{
-    ViewData["Title"] = "Credit";
+    ViewData["Title"] = "Loan";
+    Layout = "~/Views/Shared/_MasterLayout.cshtml";
     int Count = 1;
 }
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<style>
-    .custom-combobox {
-        position: relative;
-        display: inline-block;
-    }
 
-    .custom-combobox-toggle {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin-left: -1px;
-        padding: 0;
-    }
-
-    .custom-combobox-input {
-        margin: 0;
-        padding: 5px 10px;
-    }
-</style>
-
-
-<h2>Credit</h2>
 
 <!-- Save Modal -->
 <div id="SaveModal" class="modal fade" role="dialog">
@@ -36,7 +14,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">+ Add Credit Account</h4>
+                <h4 class="modal-title">+ Add Loan</h4>
             </div>
             <div class="modal-body">
                 <!-- PAGE CONTENT WRAPPER -->
@@ -48,13 +26,10 @@
                                     <div class="panel-body">
                                         <div class="form-check">
                                             <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <div class="form-group" style="padding-left:170px;">
-                                                        <label class="control-label">Code*</label>
-                                                        <input type="radio" id="Code" name="CodeName" class="form-check" checked />
-                                                        <label class="control-label">Name*</label>
-                                                        <input type="radio" name="CodeName" id="Name" class="form-check" />
-                                                    </div>
+                                                <label class="col-md-3 control-label">AccountName</label>
+                                                <div class="input-group">
+                                                    <span>Loan</span> @Html.RadioButton("Loan", "Loan")<span>Loan Return</span> @Html.RadioButton("Loan", "LoanReturn")
+                                                    @* @Html.DropDownList("AccountType", (IEnumerable<SelectListItem>)ViewBag.AccountType, "Select AccountType", new { @class = "form-control" })*@
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -80,21 +55,54 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">ExchangeRate</label>
+                                                <label class="col-md-3 control-label">Name</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="ExRate" />
+                                                    <input type="text" id="AccountName" class="form-control" />
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Amount</label>
                                                 <div class="input-group">
-                                                    <input type="text" id="Amount" class="form-control" />
+                                                    <input type="text" id="LoanAmount" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Amount Description</label>
                                                 <div class="input-group">
                                                     <input type="text" id="AmountDescription" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Exchange Rate</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="ExRate" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Exchange Currency</label>
+                                                <div class="input-group">
+                                                    @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control", id = "exchangeCurrency_Id" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Exchange Amount</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="ExchangeAmount" class="form-control" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"> Transfer </label>
+                                                <div class="input-group">
+                                                    <input type="checkbox" id="isTransfer" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Transfer Account</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="TransferAccount" class="form-control" />
                                                 </div>
                                             </div>
                                             <div style="text-align:right;">
@@ -122,6 +130,7 @@
     </div>
 </div>
 <!-- Save Modal -->
+<!-- Save Modal -->
 <div id="UpdateModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
 
@@ -129,7 +138,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"> Update Credit Account</h4>
+                <h4 class="modal-title"> Update Loan</h4>
             </div>
             <div class="modal-body">
                 <!-- PAGE CONTENT WRAPPER -->
@@ -140,20 +149,11 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="form-check">
+
                                             <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <div class="form-group" style="padding-left:170px;">
-                                                        <label class="control-label">Code*</label>
-                                                        <input type="radio" id="UpdCode" name="CodeName" class="form-check" checked />
-                                                        <label class="control-label">Name*</label>
-                                                        <input type="radio" id="UpdName" name="CodeName" class="form-check" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" for="UpdAccCode">
                                                 <label class="col-md-3 control-label">AccountName</label>
-                                                <div class="input-group  ui-widget">
-                                                    <input type="text" id="UpdAccCode" class="form-control" autocomplete="on" />
+                                                <div class="input-group">
+                                                    <input type="text" id="AccCode" class="form-control" />
                                                     @* @Html.DropDownList("AccountType", (IEnumerable<SelectListItem>)ViewBag.AccountType, "Select AccountType", new { @class = "form-control" })*@
                                                 </div>
                                             </div>
@@ -169,25 +169,58 @@
                                                 <label class="col-md-3 control-label">Narrative</label>
                                                 <div class="input-group">
                                                     @*<input type="text" id="Narrative" class="form-control" />*@
-                                                    <textarea cols="22" rows="10" id="UpdTransDescription"></textarea>
+                                                    <textarea cols="22" rows="10" id="TransDescription"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">ExchangeRate</label>
+                                                <label class="col-md-3 control-label">Name</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" id="UpdExchangeRate" />
+                                                    <input type="text" id="Amount" class="form-control" />
                                                 </div>
                                             </div>
+
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Amount</label>
                                                 <div class="input-group">
-                                                    <input type="text" id="UpdAmount" class="form-control" />
+                                                    <input type="text" id="updAmount" class="form-control" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label">Amount Description</label>
                                                 <div class="input-group">
-                                                    <input type="text" id="UpdAmountDescription" class="form-control" />
+                                                    <input type="text" id="updAmountDescription" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Exchange Rate</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="ExRate" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Exchange Currency</label>
+                                                <div class="input-group">
+                                                    @Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency", new { @class = "form-control", id = "Currency_Id" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Exchange Amount</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="SellingAmount" class="form-control" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"> </label>
+                                                <div class="input-group">
+                                                    <span>isTransfer</span>   <input type="checkbox" id="isTransfer" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Transfer Account</label>
+                                                <div class="input-group">
+                                                    <input type="text" id="updTransferAccount" class="form-control" />
                                                 </div>
                                             </div>
                                             <div style="text-align:right;">
@@ -201,8 +234,6 @@
                                                     </div>
                                                 </div>*@
 
-
-
                                         </div>
                                     </div>
                                 </div>
@@ -211,9 +242,11 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+<!-- End Save Modal -->
 <!-- PAGE CONTENT WRAPPER -->
 <div class="page-content-wrap">
 
@@ -223,22 +256,27 @@
             <!-- START DEFAULT DATATABLE -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Credit</h3><br />
+                    <h3 class="panel-title">Loans</h3><br />
                 </div>
                 <div class="panel-body">
-                    <div><p class="panel-title">Manage Credit</p></div><br /> <br />
+                    <div><p class="panel-title">Manage Loans</p></div><br /> <br />
                     <div>
                         <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Create</a>
-                        <a asp-action="Credit" asp-controller="Transaction" class="btn btn-info">Reload</a>
+                        <a href="#" class="btn btn-info">Reload</a>
                     </div><br />
                     <table class="table datatable table-striped">
                         <thead>
                             <tr>
                                 <th>Sno</th>
-                                <th>Account Name</th>
+                                <th>Id</th>
+                                <th>Description</th>
                                 <th>Currency</th>
-                                <th>Exchange Rate</th>
-                                <th>Amount</th>
+                                <th>Loan Date</th>
+                                <th>Hijri Date</th>
+                                <th>Transcription</th>
+                                <th>Loan Out</th>
+                                <th>Loan In</th>
+                                <th>Balance</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -247,12 +285,19 @@
                             {
                                 <tr>
                                     <td>@(Count++)</td>
-                                    <td>@item.CreditAccount</td>
-                                    <td>@item.PurchaseCurrency</td>
-                                    <td>@item.ExRate</td>
-                                    <td>@item.PurchaseAmount</td>
+                                    <td>@item.LoanId</td>
+                                    <td>@item.LoanDescription</td>
+                                    <td>@item.Currency</td>
+                                    <td>@item.LoanDate</td>
+                                    <td>@item.HijriDate</td>
+                                    <td>@item.Transcription</td>
+
+                                    <td>@item.LoanAmount</td>
+                                    <td>@item.ReturnAmount</td>
+                                    <td>@item.Balance</td>
+
                                     <td>
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" onclick="EditCreditFun(@item.ID)">Edit</a>
+                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" onclick="EditCurrencyFun(@item.LoanId)">Edit</a>
                                     </td>
                                 </tr>
                             }
@@ -266,9 +311,6 @@
 </div>
 
 <!-- PAGE CONTENT WRAPPER -->
-<link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="Stylesheet" type="text/css" />
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript" />
-<script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript" />
 
 @section CrudSection{
 
@@ -301,17 +343,20 @@
 
         $.ajax({
 
-            url: "@Url.Action("SaveCredit", "Transaction")",
+            url: "@Url.Action("SaveLoan", "Transaction")",
             type: "POST",
             dataType:"json",
             data: {
-                Code: $('#Code').val(),
+                Loan: $('#Loan').val(),
                 TransDescription: $('#TransDescription').val(),
-                CreditAccount: $('#AccCode').val(),
-                PurchaseCurrency: $('#Currency_Id').val(),
-                AccountType: $('#AccCode').val(),
+                AccountName: $('#AccountName').val(),
+                Currency: $('#Currency_Id').val(),
+                isTransfer: $('#isTransfer').val(),
                 ExRate: $('#ExRate').val(),
-                PurchaseAmount: $('#Amount').val()
+                ExchangeCurrency: $('#exchangeCurrency_Id').val(),
+                LoanAmount: $('#SellingAmount').val(),
+                ReturnAmount: $('#ExchangeAmount').val(),
+                AccountName: $('#TransferAccount').val(),
             },
 
             success: function (response) {

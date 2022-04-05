@@ -56,7 +56,20 @@ namespace AMS.Controllers
 
         public IActionResult Loan()
         {
-            return View();
+            var listcurrencies = _accRepo.GetCurrencies();
+            ViewBag.CurrencySymbol = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(listcurrencies.Result, "CurrencyId", "CurrencySymbol");
+            var listloans = _transRepo.GetLoanDetails();
+            return View(listloans.Result);
+        }
+
+        [HttpPost]
+        public JsonResult AutocompletAccountCode(string Prefix)
+        {
+
+            var listAccCode = _transRepo.GetAccountCode(Prefix);
+
+
+            return Json(listAccCode);
         }
     }
 }

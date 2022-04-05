@@ -1,11 +1,15 @@
-﻿using AMS.Models;
+﻿using AMS.Context;
+using AMS.Models;
 using AMS.Repository_Interfaces;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace AMS.Controllers
@@ -13,17 +17,21 @@ namespace AMS.Controllers
     public class HomeController : Controller
     {
         public IAccountRepository _accRepo { get; set; }
-        public HomeController(IAccountRepository accRepo)
+        private IHostingEnvironment hostingEnv;
+        public HomeController(IAccountRepository accRepo, IHostingEnvironment env)
         {
             _accRepo = accRepo;
+            this.hostingEnv = env;
         }
         public IActionResult Index()
         {
             var listaccounts = _accRepo.GetAccountDetails();
             var listaccountsType = _accRepo.GetAccountTypes();
-            ViewBag.AccountType= new SelectList(listaccountsType.Result, "AccountType", "AccountType");
+            ViewBag.AccountType = new SelectList(listaccountsType.Result, "AccountType", "AccountType");
             var listcurrencies = _accRepo.GetCurrencies();
             ViewBag.CurrencySymbol = new SelectList(listcurrencies.Result, "CurrencyId", "CurrencySymbol");
+            var listDocumentTypes = _accRepo.GetDocumentType();
+            ViewBag.DocumentTypes = new SelectList(listDocumentTypes.Result, "ID", "DocumentType");
             return View(listaccounts.Result.ToList());
         }
         public IActionResult Currencies()
@@ -45,18 +53,18 @@ namespace AMS.Controllers
         public IActionResult GetAccountById(int id)
         {
             AccountModel AccountbyDetCode = _accRepo.GetAccountDetailbyCode(id).Result;
-             
+
             return Json(AccountbyDetCode);
         }
 
-        
+
 
         [HttpPost]
         //public IActionResult SaveCurrency(int? CurrencyId, string CurrencyType, string CurrencySymbol, string USDExchangeRate)
         public IActionResult SaveCurrency(CurrenciesModel data)
         {
-            
-             
+
+
             if (!ModelState.IsValid)
             {
                 return BadRequest("Enter required fields");
@@ -67,44 +75,40 @@ namespace AMS.Controllers
             return Json(result);
         }
 
-        
+
         [HttpPost]
-        public IActionResult SaveAccount(AccountModel data)
+        public IActionResult SaveAccount(AccountModel accountModel)
         {
+            string path = string.Empty;
 
-            //long size = data.files.Sum(f => f.Length);
+            var file = accountModel.files;
+            int res = FileUpload_BL.UploadFile(file, hostingEnv, "Photo");
 
-            //// full path to file in temp location
-            //var filePath = Path.GetTempFileName();
-
-            //foreach (var formFile in data.files)
-            //{
-            //    if (formFile.Length > 0)
-            //    {
-            //        using (var stream = new FileStream(filePath, FileMode.Create))
-            //        {
-            //              formFile.CopyToAsync(stream);
-            //        }
-            //    }
-            //}
-
-            string uploadFolderPath = "~/Photo/";
-
-            //string fileName = FileUpload1.FileName.ToString();
-           
-            //string filePath = HttpContext.Current.Server.MapPath(uploadFolderPath);
-            //FileUpload1.SaveAs(filePath + "\\" + fileName);
-            //ImageButton1.ImageUrl = "~/Image/" + "/" + FileUpload1.FileName.ToString();
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Enter required fields");
-            }
-
-            var result = _accRepo.SaveAccount(data);
-
+            var result = _accRepo.SaveAccount(accountModel);
             return Json(result);
+
         }
 
+        [HttpPost]
+        public IActionResult SaveDocument(AccontDocument documentTypeModel)
+        {
+            
+
+            var file = documentTypeModel.docFile;
+            int res = FileUpload_BL.UploadFile(file, hostingEnv, "Documents");
+
+            var result = _accRepo.SaveAccountDocument(documentTypeModel);
+            return Json(result);
+
+        }
+
+        [HttpGet]
+        public ActionResult GetDocuments()
+        {
+            var result = _accRepo.GetUploadedDocument();
+            return Json(result.Result);
+        
+        }
     }
 }
+

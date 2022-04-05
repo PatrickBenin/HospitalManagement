@@ -97,7 +97,7 @@ namespace AMS.Repository
             param.Add("@FatherName", accountModel.FatherName);
             param.Add("@Currency_ID", accountModel.Currency_Id);
             param.Add("@aAddress", accountModel.aAddress);
-            param.Add("@Photo", accountModel.Photo);
+            param.Add("@Photo", "~/Photo/"+accountModel.files.FileName);
             param.Add("@sSignature", !string.IsNullOrEmpty(accountModel.sSignature)? accountModel.sSignature:string.Empty);
             param.Add("@TaskiraNo", accountModel.TaskiraNo);
             param.Add("@EmailAddress", accountModel.EmailAddress);
@@ -120,5 +120,47 @@ namespace AMS.Repository
                 return result;
             }
         }
+
+        public async Task<int> SaveAccountDocument(AccontDocument accDocModel)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Description", accDocModel.Description);
+            param.Add("@ExpiryDate", accDocModel.ExpiryDate);
+            param.Add("@AccountId", accDocModel.AccountId);
+            param.Add("@DocumentTypeID", accDocModel.Id);
+            param.Add("@URL", "~/Dcouments/" + accDocModel.docFile.FileName);
+            param.Add("@CreatedBy", 1);
+            param.Add("@CreatedOn", DateTime.Now);
+            
+            
+            using (var con = _context.CreateConnection())
+            {
+                int result = con.Execute("prInsertUpdateAccountDocument", param: param, commandType: CommandType.StoredProcedure);
+
+                return result;
+            }
+        }
+
+        
+        public async Task<List<DocumentTypeModel>> GetDocumentType()
+        {
+            using (var con = _context.CreateConnection())
+            {
+                var _listDocumentTypes = con.Query<DocumentTypeModel>("PrGetDocumentypes", commandType: CommandType.StoredProcedure).ToList();
+
+                return _listDocumentTypes;
+            }
+        }
+
+        public async Task<List<AccontDocument>> GetUploadedDocument()
+        {
+            using (var con = _context.CreateConnection())
+            {
+                var _listDocumentTypes = con.Query<AccontDocument>("GetAccountDocument", commandType: CommandType.StoredProcedure).ToList();
+
+                return _listDocumentTypes;
+            }
+        }
+
     }
 }
