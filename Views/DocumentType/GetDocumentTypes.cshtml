@@ -1,0 +1,267 @@
+﻿@model IEnumerable<AMS.Models.DocumentTypeModel>
+
+    @{
+    ViewData["Title"] = "GetDocumentTypes";
+    }
+
+
+
+    @using System.Web;
+    @*
+        For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    *@
+    @{
+        int Count = 1;
+    }
+    <style>
+        #AccountType, #Currencies {
+            width: 176px;
+        }
+    </style>
+
+    <!-- Save Modal -->
+    <div id="SaveModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">+ Add Currency</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- PAGE CONTENT WRAPPER -->
+                    <div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <form class="form-horizontal">
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Document Type*</label>
+                                                        <div class="col-md-9">
+                                                            @*@Html.DropDownList("Currencies", (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency Type", new { @class = "form-control" })*@
+                                                            <input type="text" id="DocumentType" class="form-control" />
+
+                                                        </div>
+                                                    </div>
+
+                                                   
+
+                                                </div>
+                                                <br />
+                                                <div style="text-align:right;">
+                                                    <button id="btnCancel" class="btn btn-default">Cancel</button>
+                                                    <button id="btnSave" class="btn btn-success">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Save Modal -->
+    <!-- Save Modal -->
+    <div id="UpdateModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> Update Currency</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- PAGE CONTENT WRAPPER -->
+                    <div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <form class="form-horizontal">
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Currency Type*</label>
+                                                        <div class="col-md-9">
+                                                            <input type="hidden" id="updCurrencyId" />
+                                                            @*@Html.DropDownList("CurrenciesType", (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency Type", new { @class = "form-control", @id = "updCurrenciesType" })*@
+                                                            <input type="text" id="updCurrenciesType" class="form-control" />
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Currency Symbol*</label>
+                                                        <div class="input-group">
+                                                            @*@Html.DropDownList("CurrencySymbol", (IEnumerable<SelectListItem>)ViewBag.CurrencySymbol, "Select Currency Symbol", new { @class = "form-control",@id= "updCurrencySymbol" })*@
+
+                                                            <input type="text" id="updCurrencySymbol" class="form-control" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">USD Exchange Rate*</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="updUSDExchangeRate" class="form-control" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <br />
+                                                <div style="text-align:right;">
+                                                    <button id="btnCancel" class="btn btn-default">Cancel</button>
+                                                    <button id="btnUpdate" class="btn btn-success">Update</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Save Modal -->
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Currencies</h3><br />
+                    </div>
+                    <div class="panel-body">
+                        <div><p class="panel-title">Manage Currencies</p></div><br /> <br />
+                        <div>
+                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Create</a>
+                            <a asp-action="Currencies" asp-controller="Home" class="btn btn-info">Reload</a>
+                        </div><br />
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ID)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DocumentType)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model) {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DocumentType)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new {  id=item.ID  }) |
+                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                    </td>
+                                </tr>
+}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE CONTENT WRAPPER -->
+    @section CrudSection{
+        <script>
+
+    $('#btnSave').on('click', function () {
+        $.ajax({
+
+            url: "@Url.Action("SaveDocumentType", "DocumentType")",
+            type: "POST",
+            dataType:"json",
+            data: {
+                DocumentType: $('#DocumentType').val()
+            },
+
+            success: function (response) {
+                location.reload(true);
+            }
+
+        });
+    });
+
+
+
+        function EditCurrencyFun(CurrencyId)
+        {
+             $.ajax({
+
+             url: "@Url.Action("GetCurrencyById", "Home")",
+             type: "GET",
+             dataType:"json",
+             data: {
+                     Id: CurrencyId,
+            },
+            success: function (response) {
+
+                        $('#updCurrencyId').val(response[0].currencyId),
+                        $('#updCurrenciesType').val(response[0].currencyType),
+                        $('#updCurrencySymbol').val(response[0].currencySymbol),
+                        $('#updUSDExchangeRate').val(response[0].usdExchangeRate)
+                }
+            });
+        }
+
+
+        $('#btnUpdate').on('click', function () {
+        $.ajax({
+
+            url: "@Url.Action("SaveCurrency", "Home")",
+            type: "POST",
+            dataType:"json",
+            data: {
+                CurrencyId: $('#updCurrencyId').val(),
+                CurrencyType: $('#updCurrenciesType').val(),
+                CurrencySymbol: $('#updCurrencySymbol').val(),
+                USDExchangeRate: $('#updUSDExchangeRate').val(),
+            },
+
+            success: function (response) {
+                location.reload(true);
+            }
+
+        });
+    });
+        </script>
+    }

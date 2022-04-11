@@ -67,8 +67,6 @@ namespace AMS.Controllers
         {
 
             var listAccCode = _transRepo.GetAccountCode(Prefix);
-
-
             return Json(listAccCode);
         }
     }

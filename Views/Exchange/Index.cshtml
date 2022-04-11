@@ -1,0 +1,192 @@
+﻿@model List<ExchangeModel>
+    @{
+    ViewData["Title"] = "Index";
+    int Count=1;
+    }
+
+    <h2>Exchange View</h2>
+
+
+
+    <div id="SaveModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">+ Add Exchange</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- PAGE CONTENT WRAPPER -->
+                    <div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <form class="form-horizontal">
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-body">
+
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Purchase Account*</label>
+                                                        <div class="col-md-9">
+                                                            @*@Html.DropDownList("Currencies", (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency Type", new { @class = "form-control" })*@
+                                                            <input type="text" id="PurchaseAccount" class="form-control" />
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Purchase Currency*</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="PurchaseCurrency" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Purchase Amount*</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="PurchaseAmount" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Debit Account*</label>
+                                                        <div class="col-md-9">
+                                                            @*@Html.DropDownList("Currencies", (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency Type", new { @class = "form-control" })*@
+                                                            <input type="text" id="SellingAccount" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Selling Amount*</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="SellingAmount" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Selling Currency*</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="SellingCurrency" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">Exchange Rate*</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="ExRate" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-3 control-label">TransDescription*</label>
+                                                        <div class="input-group">
+                                                            <input type="text" id="TransDescription" class="form-control" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <br />
+                                                <div style="text-align:right;">
+                                                    <button id="btnCancel" class="btn btn-default">Cancel</button>
+                                                    <button id="btnSave" class="btn btn-success">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content-wrap">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- START DEFAULT DATATABLE -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Exchange</h3><br />
+                    </div>
+                    <div class="panel-body">
+                        <div><p class="panel-title">Manage Exchange</p></div><br /> <br />
+                        <div>
+                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Create</a>
+                            <a asp-action="Currencies" asp-controller="Home" class="btn btn-info">Reload</a>
+                        </div><br />
+                        <table class="table datatable table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Credit Account</th>
+                                    <th>Purchase Currency</th>
+                                    <th>Purchase Amount</th>
+                                    <th>USD Exchange Rate</th>
+                                    <th>Debit Account</th>
+                                    <th>Selling Currency</th>
+                                    <th>Selling Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(Count++)</td>
+                                    <td>@item.CreditAccount</td>
+                                    <td>@item.PurchaseCurrency</td>
+                                    <td>@item.PurchaseAmount</td>
+                                    <td>@item.ExRate</td>
+                                    <td>@item.DebitAccount</td>
+                                    <td>@item.SellingCurrency</td>
+                                    <td>@item.SellingAmount</td>
+
+                                    <td>
+                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" onclick="EditCreditFun(@item.ID)">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END DEFAULT DATATABLE -->
+            </div>
+        </div>
+    </div>
+
+    @section CrudSection{
+        <script>
+
+    $('#btnSave').on('click', function () {
+        $.ajax({
+           
+            url: "@Url.Action("SaveExChange", "Exchange")",
+            type: "POST",
+            dataType:"json",
+            data: {
+                CreditAccount: $('#PurchaseAccount').val(),
+                DebitAccount: $('#SellingAccount').val(),
+                TransDescription: $('#TransDescription').val(),
+                PurchaseCurrency: $('#PurchaseCurrency').val(),
+                SellingCurrency: $('#SellingCurrency').val(),
+                PurchaseAmount: $('#PurchaseAmount').val(),
+                ExRate: $('#ExRate').val(),
+                SellingAmount: $('#SellingAmount').val()
+            },
+
+            success: function (response) {
+                location.reload(true);
+            }
+
+        });
+    });
+        </script>
+}

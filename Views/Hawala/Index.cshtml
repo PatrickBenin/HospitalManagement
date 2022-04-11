@@ -1,0 +1,63 @@
+﻿@model List<HawalaModel>
+@{
+    ViewData["Title"] = "Index";
+    int Count = 1;
+}
+
+<h2>Index</h2>
+
+<div class="page-content-wrap">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- START DEFAULT DATATABLE -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Hawala</h3><br />
+                </div>
+                <div class="panel-body">
+                    <div><p class="panel-title">Manage Hawala</p></div><br /> <br />
+                    <div>
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#SaveModal">Create</a>
+                        <a asp-action="Currencies" asp-controller="Home" class="btn btn-info">Reload</a>
+                    </div><br />
+                    <table class="table datatable table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sno</th>
+                                <th>Hawal No</th>
+                                <th>Sender Account</th>
+                                <th>Sender Name</th>
+                                <th>Receiver Name</th>
+                                <th>Receiver Tazkira No</th>
+                                <th>Currency</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@(Count++)</td>
+                                    <td>@item.HawalaNumber</td>
+                                    <td>@item.SenderAccount</td>
+                                    <td>@item.SenderName</td>
+                                    <td>@item.ReceiverName</td>
+                                    <td>@item.TazkiraNo</td>
+                                    <td>@item.Currency</td>
+                                    <td>@item.Amount</td>
+                                    <td>
+                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" onclick="EditCreditFun(@item.ID)">Edit</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END DEFAULT DATATABLE -->
+        </div>
+    </div>
+</div>

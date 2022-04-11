@@ -29,6 +29,10 @@ namespace AMS
             services.AddSingleton<DapperContext>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IAuctionRepository, AuctionRepository>();
+            services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+            services.AddScoped<IExchangeRepository, ExchangeRepository>();
+            services.AddScoped<IHawalaRepository, HawalaRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
