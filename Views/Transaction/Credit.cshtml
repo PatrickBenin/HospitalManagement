@@ -3,8 +3,28 @@
     ViewData["Title"] = "Credit";
     int Count = 1;
 }
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">*@
 <link rel="stylesheet" href="/resources/demos/style.css">
+@*<script src="~/js/jquery-1.11.1.min.js"></script>*@
+<link href="~/css/jquery-ui.css" rel="stylesheet" />
+@*<script src="~/js/jquery-ui.js"></script>*@
+
+<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+<script>
+    $(document).ready(function () {
+            $(".autocomtext").autocomplete({
+
+            source: '@Url.Action("../Transaction/AutocompletAccountCode")'
+
+        });
+    })
+
+
+        // alert('help');
+</script>
 <style>
     .custom-combobox {
         position: relative;
@@ -153,7 +173,7 @@
                                             <div class="form-group" for="UpdAccCode">
                                                 <label class="col-md-3 control-label">AccountName</label>
                                                 <div class="input-group  ui-widget">
-                                                    <input type="text" id="UpdAccCode" class="form-control" autocomplete="on" />
+                                                    <input type="text" id="UpdAccCode" class="form-control autocomtext" />
                                                     @* @Html.DropDownList("AccountType", (IEnumerable<SelectListItem>)ViewBag.AccountType, "Select AccountType", new { @class = "form-control" })*@
                                                 </div>
                                             </div>
@@ -266,9 +286,8 @@
 </div>
 
 <!-- PAGE CONTENT WRAPPER -->
-<link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="Stylesheet" type="text/css" />
-<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript" />
-<script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript" />
+
+
 
 @section CrudSection{
 
@@ -384,27 +403,8 @@
         //Code for Dropdown AutoComplete
 
 
-        $(document).ready(function () {
 
-    $("#UpdAccCode").autocomplete({
 
-    source: function (request, response) {
-    $.ajax({
-    url: "/Transaction/AutocompletAccountCode",
-    type: "POST",
-    dataType: "json",
-    data: { Prefix: request.term },
-    success: function (data) {
-    response($.map(data, function (item) {
-        return { label: item.accountName, value: item.accountName };
-    }))
-
-    }
-    })
-    }
-
-    })
-    });
 
 
 
@@ -412,5 +412,5 @@
     </script>
 
 
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
 }
